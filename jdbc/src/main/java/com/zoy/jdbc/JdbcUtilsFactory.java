@@ -2,6 +2,7 @@ package com.zoy.jdbc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
@@ -46,6 +47,10 @@ class JdbcUtils{
 
     public JdbcUtils(){}
 
+    /**
+     * 获取数据库连接
+     * @return
+     */
     public Connection getConn(){
         String driver= "com.mysql.cj.jdbc.Driver";
         String url= "jdbc:mysql://192.168.1.110:3306/java-architect?useUnicode=true&characterEncoding=UTF-8";
@@ -62,6 +67,28 @@ class JdbcUtils{
             e.printStackTrace();
         }
         return conn;
+    }
+
+    /**
+     * 关闭连接
+     * @param conn
+     * @param pstmt
+     */
+    public void closeConn(Connection conn, PreparedStatement pstmt){
+        if(conn!=null){
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if(pstmt!=null){
+            try {
+                pstmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }
