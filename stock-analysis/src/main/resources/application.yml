@@ -1,0 +1,22 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+  jetty:
+    acceptors: 2
+    selectors: 4
+spring:
+  # 配置数据源
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.1.110:3306/java-architect?useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: 123456
+  # 配置jpa
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  jackson:
+    serialization: true
+
