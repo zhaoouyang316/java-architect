@@ -16,7 +16,7 @@ import java.util.Date;
  */
 @Data
 @ToString(callSuper = true)
-public class StockRecord extends BaseAutoId implements Serializable{
+public class StockPriceRecord extends BaseAutoId implements Serializable{
 
     private static final long serialVersionUID = -2256839563977327100L;
 

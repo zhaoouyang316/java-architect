@@ -20,7 +20,7 @@ CREATE TABLE `java-architect`.`stock_analysis_record` (
   UNIQUE INDEX `id_UNIQUE` (`id` ASC));
 
 -- 股票价格记录表
-CREATE TABLE `java-architect`.`stock_record` (
+CREATE TABLE `java-architect`.`stock_price_record` (
   `id` BIGINT(20) NOT NULL,
   `stock_name` VARCHAR(200) NULL COMMENT '股票名字',
   `stock_analysis_id` BIGINT(20) NULL COMMENT '策略编号',
