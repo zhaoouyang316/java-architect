@@ -17,6 +17,6 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-  jackson:
-    serialization: true
+#  jackson:
+#    serialization: true
 
