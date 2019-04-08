@@ -24,9 +24,8 @@ public class IndexController {
 
     @GetMapping(value = "/search")
     public String search(){
-        StockAnalysis stockAnalysis=stockAnalysisService.getStockAnalysis(1L);
         System.out.println(1);
-        return JSON.toJSONString(stockAnalysis);
+        return "1";
     }
 
 }

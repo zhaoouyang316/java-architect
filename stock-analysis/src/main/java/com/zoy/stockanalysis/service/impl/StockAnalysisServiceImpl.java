@@ -1,11 +1,12 @@
 package com.zoy.stockanalysis.service.impl;
 
-import com.zoy.stockanalysis.dao.StockAnalysisRepository;
+import com.zoy.stockanalysis.repostiory.StockAnalysisRepository;
 import com.zoy.stockanalysis.entity.StockAnalysis;
 import com.zoy.stockanalysis.service.StockAnalysisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * @author : owen
@@ -19,21 +20,20 @@ public class StockAnalysisServiceImpl implements StockAnalysisService{
     private StockAnalysisRepository stockAnalysisRepository;
 
     @Override
-    public StockAnalysis getStockAnalysis(Long id) {
-        return stockAnalysisRepository.getStockAnalysis(id);
+    public List<StockAnalysis> findAll() {
+        return stockAnalysisRepository.findAll();
     }
 
-
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public StockAnalysis save(StockAnalysis stockAnalysis) {
         return stockAnalysisRepository.save(stockAnalysis);
     }
 
-
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public int updateStockNameById(String stockName, Long id) {
-        return stockAnalysisRepository.updateStockNameById(stockName,id);
+    public List<StockAnalysis> findAll(StockAnalysis stockAnalysis) {
+        stockAnalysisRepository.findAll();
+        return null;
     }
+
+
 }

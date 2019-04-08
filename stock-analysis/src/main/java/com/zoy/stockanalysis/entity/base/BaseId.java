@@ -3,10 +3,7 @@ package com.zoy.stockanalysis.entity.base;
 import lombok.Data;
 import lombok.ToString;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 
 /**
  * @author : owen
@@ -19,6 +16,7 @@ import javax.persistence.MappedSuperclass;
 public class BaseId extends BaseModel{
 
     @Id
+    @Column(columnDefinition=BIGINT+"'序号'")
     public Long id;
 
 }

@@ -2,6 +2,8 @@ package com.zoy.stockanalysis.service;
 
 import com.zoy.stockanalysis.entity.StockAnalysis;
 
+import java.util.List;
+
 /**
  * @author : owen
  * @email zhaoouyang163@gmail.com
@@ -9,7 +11,7 @@ import com.zoy.stockanalysis.entity.StockAnalysis;
  */
 public interface StockAnalysisService {
 
-    StockAnalysis getStockAnalysis(Long id);
+    List<StockAnalysis> findAll();
     StockAnalysis save(StockAnalysis stockAnalysis);
-    int updateStockNameById(String stockName,Long id);
+    List<StockAnalysis> findAll(StockAnalysis stockAnalysis);
 }

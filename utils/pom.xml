@@ -9,7 +9,10 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
+	<groupId>com.zoy.parent</groupId>
 	<artifactId>utils</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>utils</name>
 
 	<dependencies>
 

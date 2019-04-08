@@ -9,7 +9,7 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<groupId>com.zoy</groupId>
+	<groupId>com.zoy.parent</groupId>
 	<artifactId>stock-analysis</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>stock-analysis</name>
@@ -17,8 +17,8 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.zoy</groupId>
-			<artifactId>utils</artifactId>
+			<groupId>com.zoy.parent</groupId>
+			<artifactId>common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 

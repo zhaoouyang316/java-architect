@@ -16,7 +16,7 @@ jdbc
   技术方案：通过定时任务设定策略，记录股票价格，统计出每一种策略的盈亏，帮助投资者决策使用那种策略
 
 技术选型：
-    Jetty, 
+    Jetty,
     Jpa,
     Spring-Task,
     OkHttpClient,

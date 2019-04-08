@@ -2,7 +2,6 @@ package com.zoy.stockanalysis.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zoy.stockanalysis.StockAnalysisApplication;
-import com.zoy.stockanalysis.dao.StockAnalysisRepository;
 import com.zoy.stockanalysis.entity.StockAnalysis;
 import com.zoy.stockanalysis.service.StockAnalysisService;
 import org.junit.Test;
@@ -12,8 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Date;
-
-import static org.junit.Assert.*;
+import java.util.List;
 
 /**
  * @author : owen
@@ -28,14 +26,7 @@ public class StockAnalysisServiceImplTest {
     private StockAnalysisService stockAnalysisService;
 
     @Test
-    public void getStockAnalysis() throws Exception {
-        System.out.println("开始");
-        StockAnalysis stockAnalysis=stockAnalysisService.getStockAnalysis(1L);
-        System.out.println("查询结果："+ JSONObject.toJSONString(stockAnalysis));
-    }
-
-    @Test
-    public void testAdd(){
+    public void findAll(){
         System.out.println("开始");
         StockAnalysis stockAnalysis=new StockAnalysis();
         stockAnalysis.setStockName("策略名称");
@@ -43,20 +34,25 @@ public class StockAnalysisServiceImplTest {
         stockAnalysis.setSellTime(new Date());
         stockAnalysis.setCreateTime(new Date());
 
-        stockAnalysisService.save(stockAnalysis);
+        List<StockAnalysis> list= stockAnalysisService.findAll();
+        System.out.println(JSONObject.toJSONString(list));
     }
 
+    /**
+     * 新增策略
+     */
     @Test
-    public void testUpdate(){
-        System.out.println("开始");
+    public void addStockAnalysis(){
         StockAnalysis stockAnalysis=new StockAnalysis();
-        stockAnalysis.setStockName("策略名2");
+        stockAnalysis.setStockName("热门板块涨幅中偏上绩优股");
         stockAnalysis.setBuyTime(new Date());
+        // 卖出时间 = 当前时间加一天的第二天 10:00
         stockAnalysis.setSellTime(new Date());
         stockAnalysis.setCreateTime(new Date());
-        stockAnalysis.setId(1L);
-
-        stockAnalysisService.updateStockNameById(stockAnalysis.getStockName(),stockAnalysis.getId());
+        stockAnalysisService.save(stockAnalysis);
+        System.out.println("新增策略成功！");
     }
+
+
 
 }
