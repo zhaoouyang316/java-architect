@@ -44,8 +44,9 @@ stock-analysis
         统计涨幅高于5%的盈利比率
         统计涨幅3%-5%的盈利比率
         
+        统计跌幅最大的股票里面的特性，规避风险
+        
 ### 执行步骤：
     1 新增策略
-      StockAnalysisServiceImplTest.addStockAnalysis
+        StockAnalysisServiceImplTest.addStockAnalysis
     2 复制策略ID,新增股票接口的策略ID
-    3 

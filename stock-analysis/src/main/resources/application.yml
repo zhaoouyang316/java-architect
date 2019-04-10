@@ -20,3 +20,16 @@ spring:
 #  jackson:
 #    serialization: true
 
+
+# 上证大盘接口
+bigmarket:
+  url:
+    sh: http://hq.sinajs.cn/list=s_sh000001
+    sz: http://hq.sinajs.cn/list=s_sz399001
+
+# 深证股票行情接口
+stock:
+  url:
+    sh: http://hq.sinajs.cn/list=sh
+    sz: http://hq.sinajs.cn/list=sz
+

@@ -28,4 +28,5 @@ public class StockAnalysis extends BaseAutoId implements Serializable{
     @Column(columnDefinition= STRING+"'卖出时间'")
     private String sellTime;
 
+
 }

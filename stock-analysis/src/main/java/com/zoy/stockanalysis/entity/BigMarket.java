@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
+ * 大盘指数
  * @author : owen
  * @email zhaoouyang163@gmail.com
  * @date : 2019/4/10
@@ -31,4 +32,6 @@ public class BigMarket extends BaseAutoId implements Serializable{
     private Long tradingNumber;
     @Column(columnDefinition= BIGINT+"'交易额'")
     private Long tradingPrice;
+    @Column(columnDefinition= TINYINT+"'大盘类型 0 上证，1 深证'")
+    private Integer bigMarketType;
 }

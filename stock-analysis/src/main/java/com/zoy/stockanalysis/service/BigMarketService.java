@@ -1,5 +1,6 @@
 package com.zoy.stockanalysis.service;
 
+import com.zoy.common.enums.BigMarketTypeEnum;
 import com.zoy.stockanalysis.entity.BigMarket;
 
 import java.util.List;
@@ -19,5 +20,12 @@ public interface BigMarketService {
      * 根据数组持久化
      * @param arr
      */
-    public BigMarket saveByArray(String arr);
+    BigMarket saveByArray(String arr,BigMarketTypeEnum bigMarketTypeEnum);
+
+    /**
+     * 保存最新大盘价格
+     * @param bigMarket
+     * @return
+     */
+    BigMarket updateById(BigMarket bigMarket);
 }

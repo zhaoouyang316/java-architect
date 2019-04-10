@@ -1,5 +1,7 @@
 package com.zoy.stockanalysis.service.impl;
 
+import com.zoy.common.enums.BigMarketTypeEnum;
+import com.zoy.common.enums.StockStatusEnum;
 import com.zoy.stockanalysis.entity.BigMarket;
 import com.zoy.stockanalysis.entity.StockPriceRecord;
 import com.zoy.stockanalysis.service.BigMarketService;
@@ -9,9 +11,9 @@ import com.zoy.utils.HttpUtils;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
 
@@ -29,37 +31,61 @@ public class ItemStockServiceImpl implements ItemStockService {
     @Autowired
     private BigMarketService bigMarketService;
 
+    @Value("${bigmarket.url.sh}")
+    private String bigmarketUrlSh;
+
+    @Value("${bigmarket.url.sz}")
+    private String bigmarketUrlSz;
+
+    @Value("${stock.url.sh}")
+    private String stockUrlSh;
+
+    @Value("${stock.url.sz}")
+    private String stockUrlSz;
+
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean buyStock(String stockCode,Long stockAnalysisId) throws Exception {
+    public boolean buyStock(String stockCode,Long stockAnalysisId,Long positionNumber) throws Exception {
         // 标记是否请求成功
         boolean flag=false;
+        // 默认上证
+        BigMarketTypeEnum bigMarketTypeEnum=BigMarketTypeEnum.SH;
+
         //获取网络请求工具类实例
         HttpUtils httpUtils = HttpUtils.getInstance();
-        Response res1=httpUtils.getDataSynFromNet("http://hq.sinajs.cn/list=s_sh000001");
+        // 大盘指数
+        Response resBigMarket=httpUtils.getDataSynFromNet(bigmarketUrlSh);
         // 大盘数据持久化
-        if(res1.isSuccessful()){
-                String body1=res1.body().string();
-                log.info("bigMarket callback {}",body1);
-                Response res2=httpUtils.getDataSynFromNet("http://hq.sinajs.cn/list=sh"+stockCode);
-                if(res2.isSuccessful()){
-                    String body2=res2.body().string();
+        if(resBigMarket.isSuccessful()){
+
+                Response resStock=httpUtils.getDataSynFromNet(stockUrlSh+stockCode);
+                if(resStock.isSuccessful()){
+                    String resStockBody=resStock.body().string();
                     // 如果不是上证就查深证
-                    String ckNull=body2.split("\"")[1];
-                    if(ckNull==null||ckNull.equals("")){
-                        res2=httpUtils.getDataSynFromNet("http://hq.sinajs.cn/list=sz"+stockCode);
-                        body2=res2.body().string();
+                    String ckNull=resStockBody.split("\"")[1];
+
+                    // 判断是否是深证
+                    if(ckNull==null|| "".equals(ckNull)){
+                        resStock=httpUtils.getDataSynFromNet(stockUrlSz+stockCode);
+                        resStockBody=resStock.body().string();
+                        bigMarketTypeEnum=BigMarketTypeEnum.SZ;
+                        resBigMarket=httpUtils.getDataSynFromNet(bigmarketUrlSz);
                     }
-                    BigMarket bigMarket=bigMarketService.saveByArray(body1);
+
+                    String body1=resBigMarket.body().string();
+                    log.info("bigMarket callback {}",body1);
+                    BigMarket bigMarket=bigMarketService.saveByArray(body1,bigMarketTypeEnum);
                     if(bigMarket!=null){
                         // 拼接大盘编号
-                        log.info("stockPriceRecord callback {}",body2);
+                        log.info("stockPriceRecord callback {}",resStockBody);
                         // 将价格入库
                         Integer broaderMarketStatus=0;
                         if(bigMarket.getVolatilityPrice().compareTo(new BigDecimal(0L))==1){
                             broaderMarketStatus=1;
                         }
-                        StockPriceRecord stockPriceRecord=tockPriceRecordService.saveByArray(body2,bigMarket.getId(),broaderMarketStatus,stockAnalysisId);
+                        StockPriceRecord stockPriceRecord=tockPriceRecordService.saveByArray(resStockBody,bigMarket.getId()
+                                ,broaderMarketStatus,stockAnalysisId,stockCode
+                                ,bigMarketTypeEnum, StockStatusEnum.POSITION,positionNumber,BigDecimal.valueOf(0));
                         if(stockPriceRecord!=null){
                             flag=true;
                         }else{
@@ -81,6 +107,9 @@ public class ItemStockServiceImpl implements ItemStockService {
         return flag;
     }
 
+    /**
+     * 卖出股票
+     */
     @Override
     public void sellStock() {
 

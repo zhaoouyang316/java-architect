@@ -1,5 +1,7 @@
 package com.zoy.stockanalysis.service.impl;
 
+import com.zoy.common.enums.BigMarketTypeEnum;
+import com.zoy.common.enums.StatusEnum;
 import com.zoy.stockanalysis.entity.BigMarket;
 import com.zoy.stockanalysis.entity.StockAnalysis;
 import com.zoy.stockanalysis.repostiory.BigMarketRepository;
@@ -42,7 +44,7 @@ public class BigMarketServiceImpl implements BigMarketService {
     }
 
     @Override
-    public BigMarket saveByArray(String arr) {
+    public BigMarket saveByArray(String arr,BigMarketTypeEnum bigMarketTypeEnum) {
         String[] bigMarketArr=arr.split("\"")[1].split(",");
         BigMarket bigMarket=new BigMarket();
         bigMarket.setId(SnowFlakeIdGenerator.getDefaultNextId());
@@ -52,6 +54,14 @@ public class BigMarketServiceImpl implements BigMarketService {
         bigMarket.setTradingNumber(NumberUtils.parseNumber(bigMarketArr[4],Long.class));
         bigMarket.setTradingPrice(NumberUtils.parseNumber(bigMarketArr[5],Long.class));
         bigMarket.setCreateTime(new Date());
+        bigMarket.setBigMarketType(bigMarketTypeEnum.getValue());
+        bigMarket.setStatus(StatusEnum.ACTIVE.getValue());
+
         return bigMarketRepository.save(bigMarket);
+    }
+
+    @Override
+    public BigMarket updateById(BigMarket bigMarket) {
+        return bigMarketRepository.saveAndFlush(bigMarket);
     }
 }

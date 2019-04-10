@@ -1,12 +1,15 @@
 package com.zoy.stockanalysis.service.impl;
 
 import com.zoy.common.enums.StockStatusEnum;
+import com.zoy.stockanalysis.entity.StockAnalysis;
 import com.zoy.stockanalysis.entity.StockAnalysisRecord;
 import com.zoy.stockanalysis.entity.StockPriceRecord;
 import com.zoy.stockanalysis.repostiory.StockAnalysisRecordRepository;
 import com.zoy.stockanalysis.service.StockAnalysisRecordService;
 import com.zoy.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.util.NumberUtils;
 
@@ -38,6 +41,15 @@ public class StockAnalysisRecordServiceImpl implements StockAnalysisRecordServic
     public List<StockAnalysisRecord> findAll(StockAnalysisRecord stockAnalysisRecord) {
         stockAnalysisRecordRepository.findAll();
         return null;
+    }
+
+    @Override
+    public StockAnalysisRecord getByStockAnalysisId(StockAnalysisRecord stockAnalysisRecord) {
+        //构建对象
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withMatcher("stockAnalysisId", ExampleMatcher.GenericPropertyMatchers.contains());
+        Example<StockAnalysisRecord> ex = Example.of(stockAnalysisRecord, matcher);
+        return stockAnalysisRecordRepository.findOne(ex).get();
     }
 
 

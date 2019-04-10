@@ -91,14 +91,17 @@ public class StockPriceRecord extends BaseAutoId implements Serializable{
     @Column(columnDefinition=DATETIME+"'日期'")
     private Date time;
     @Column(columnDefinition=TINYINT+"'状态 0 平仓 1 持仓'")
-    private Integer status;
+    private Integer positionsStatus;
     @Column(columnDefinition=TINYINT+"'状态 0 大盘跌 1 大盘涨'")
     private Integer broaderMarketStatus;
     @Column(columnDefinition=BIGINT+"'大盘编号'")
     private Long bigMarketId;
-
     @Column(columnDefinition=DECIMAL+"'上日结算'")
     private BigDecimal yesterdaySettlement;
-    @Column(columnDefinition=DECIMAL+"'平仓价'")
-    private BigDecimal unwindPrice;
+    @Column(columnDefinition=STRING+"'股票代码'")
+    private String stockCode;
+    @Column(columnDefinition=TINYINT+"'大盘类型 0 上证，1 深证'")
+    private Integer bigMarketTypeEnum;
+    @Column(columnDefinition=BIGINT+"'持仓数量'")
+    private Long positionNumber;
 }

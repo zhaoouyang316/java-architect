@@ -25,5 +25,6 @@ public class BaseModel extends ColumnType implements Serializable{
     protected Date createTime;
     @Column(columnDefinition=DATETIME+"'更新时间'")
     protected Date updateTime=new Date();
-
+    @Column(columnDefinition= TINYINT+"'状态 0 禁用，1 激活'")
+    protected Integer status;
 }

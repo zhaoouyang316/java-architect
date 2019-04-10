@@ -1,5 +1,7 @@
 package com.zoy.stockanalysis.service.impl;
 
+import com.zoy.common.enums.BigMarketTypeEnum;
+import com.zoy.common.enums.StatusEnum;
 import com.zoy.common.enums.StockStatusEnum;
 import com.zoy.stockanalysis.entity.StockPriceRecord;
 import com.zoy.stockanalysis.repostiory.StockPriceRecordRepository;
@@ -40,13 +42,18 @@ public class StockPriceRecordServiceImpl implements StockPriceRecordService {
     public List<StockPriceRecord> findAll(StockPriceRecord stockPriceRecord) {
         //构建对象
         ExampleMatcher matcher = ExampleMatcher.matching()
-                .withMatcher("status", ExampleMatcher.GenericPropertyMatchers.contains());
+                .withMatcher("status", ExampleMatcher.GenericPropertyMatchers.contains())
+                .withMatcher("stockAnalysisId", ExampleMatcher.GenericPropertyMatchers.contains());
         Example<StockPriceRecord> ex = Example.of(stockPriceRecord, matcher);
         return stockPriceRecordRepository.findAll(ex);
     }
 
     @Override
-    public StockPriceRecord saveByArray(String arr,Long bigMarketId,Integer broaderMarketStatus,Long stockAnalysisId) {
+    public StockPriceRecord saveByArray(String arr,Long bigMarketId,
+                                        Integer broaderMarketStatus,Long stockAnalysisId,
+                                        String stockCode,BigMarketTypeEnum bigMarketTypeEnum,
+                                        StockStatusEnum stockStatusEnum,Long positionNumber,
+                                        BigDecimal yesterdaySettlement) {
 
         String[] stockPriceArr=arr.split("\"")[1].split(",");
         StockPriceRecord stockPriceRecord=new StockPriceRecord();
@@ -88,10 +95,15 @@ public class StockPriceRecordServiceImpl implements StockPriceRecordService {
         String time=stockPriceArr[30]+" "+stockPriceArr[31];
 
         stockPriceRecord.setTime(DateUtil.strToDateSql(time));
-        stockPriceRecord.setStatus(StockStatusEnum.POSITION.getValue());
+        stockPriceRecord.setPositionsStatus(stockStatusEnum.getValue());
         stockPriceRecord.setBigMarketId(bigMarketId);
         stockPriceRecord.setCreateTime(new Date());
         stockPriceRecord.setBroaderMarketStatus(broaderMarketStatus);
+        stockPriceRecord.setStockCode(stockCode);
+        stockPriceRecord.setBigMarketTypeEnum(bigMarketTypeEnum.getValue());
+        stockPriceRecord.setPositionNumber(positionNumber);
+        stockPriceRecord.setYesterdaySettlement(yesterdaySettlement);
+        stockPriceRecord.setStatus(StatusEnum.ACTIVE.getValue());
 
         return stockPriceRecordRepository.save(stockPriceRecord);
     }

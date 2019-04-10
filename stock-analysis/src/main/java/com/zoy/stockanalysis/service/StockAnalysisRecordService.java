@@ -14,5 +14,5 @@ public interface StockAnalysisRecordService {
     List<StockAnalysisRecord> findAll();
     StockAnalysisRecord save(StockAnalysisRecord stockAnalysisRecord);
     List<StockAnalysisRecord> findAll(StockAnalysisRecord stockAnalysisRecord);
-
+    StockAnalysisRecord getByStockAnalysisId(StockAnalysisRecord stockAnalysisRecord);
 }

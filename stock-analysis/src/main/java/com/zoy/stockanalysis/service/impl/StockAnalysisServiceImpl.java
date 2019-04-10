@@ -1,9 +1,12 @@
 package com.zoy.stockanalysis.service.impl;
 
+import com.zoy.stockanalysis.entity.StockPriceRecord;
 import com.zoy.stockanalysis.repostiory.StockAnalysisRepository;
 import com.zoy.stockanalysis.entity.StockAnalysis;
 import com.zoy.stockanalysis.service.StockAnalysisService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,8 +34,11 @@ public class StockAnalysisServiceImpl implements StockAnalysisService{
 
     @Override
     public List<StockAnalysis> findAll(StockAnalysis stockAnalysis) {
-        stockAnalysisRepository.findAll();
-        return null;
+        //构建对象
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withMatcher("status", ExampleMatcher.GenericPropertyMatchers.contains());
+        Example<StockAnalysis> ex = Example.of(stockAnalysis, matcher);
+       return stockAnalysisRepository.findAll(ex);
     }
 
 

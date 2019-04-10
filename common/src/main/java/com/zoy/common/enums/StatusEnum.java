@@ -9,19 +9,19 @@ import lombok.Getter;
  * @date : 2019/4/10
  */
 @Getter
-public enum StockStatusEnum {
+public enum StatusEnum {
     /**
-     * 平仓
+     * 禁用
      */
-    UNWIND(0),
+    DISABLE(0),
     /**
-     * 持仓
+     * 激活
      */
-    POSITION(1);
+    ACTIVE(1);
 
     private Integer value;
 
-    StockStatusEnum(Integer value) {
+    StatusEnum(Integer value) {
         this.value = value;
     }
 

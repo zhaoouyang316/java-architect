@@ -13,7 +13,7 @@ public interface ItemStockService {
      * @param stockCode
      * @return
      */
-    boolean buyStock(String stockCode,Long stockAnalysisId) throws Exception;
+    boolean buyStock(String stockCode,Long stockAnalysisId,Long positionNumber) throws Exception;
 
     /**
      * 卖出股票
