@@ -277,9 +277,8 @@ public class StockAnalysisServiceImplTest {
                     }
                     stockAnalysisRecordService.save(stockAnalysisRecord);
                 }else{
-                    //
+                    // 结算价
 
-                    //
                 }
 
             }
