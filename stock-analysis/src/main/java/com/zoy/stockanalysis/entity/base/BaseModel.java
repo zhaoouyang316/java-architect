@@ -24,6 +24,6 @@ public class BaseModel extends ColumnType implements Serializable{
     @Column(columnDefinition=DATETIME+"'创建时间'")
     protected Date createTime;
     @Column(columnDefinition=DATETIME+"'更新时间'")
-    protected Date updateTime;
+    protected Date updateTime=new Date();
 
 }

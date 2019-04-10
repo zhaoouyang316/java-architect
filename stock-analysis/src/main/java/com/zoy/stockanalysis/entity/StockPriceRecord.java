@@ -1,6 +1,7 @@
 package com.zoy.stockanalysis.entity;
 
 import com.zoy.stockanalysis.entity.base.BaseAutoId;
+import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
 
@@ -20,7 +21,7 @@ import java.util.Date;
 @Data
 @ToString(callSuper = true)
 @Entity
-@Table(name="stock_price_record")
+@Table(name="t_stock_price_record")
 public class StockPriceRecord extends BaseAutoId implements Serializable{
 
     private static final long serialVersionUID = -2256839563977327100L;
@@ -46,7 +47,7 @@ public class StockPriceRecord extends BaseAutoId implements Serializable{
     @Column(columnDefinition=BIGINT+"'成交量'")
     private Long volume;
     @Column(columnDefinition=DECIMAL+"'成交额'")
-    private Long turnover;
+    private BigDecimal turnover;
     @Column(columnDefinition=BIGINT+"'买一量'")
     private Long buyOneNumber;
     @Column(columnDefinition=DECIMAL+"'买一价'")
@@ -89,9 +90,15 @@ public class StockPriceRecord extends BaseAutoId implements Serializable{
     private BigDecimal sellFivePrice;
     @Column(columnDefinition=DATETIME+"'日期'")
     private Date time;
-    @Column(columnDefinition=TINYINT+"'状态 0 卖出 1 持仓'")
+    @Column(columnDefinition=TINYINT+"'状态 0 平仓 1 持仓'")
     private Integer status;
     @Column(columnDefinition=TINYINT+"'状态 0 大盘跌 1 大盘涨'")
     private Integer broaderMarketStatus;
+    @Column(columnDefinition=BIGINT+"'大盘编号'")
+    private Long bigMarketId;
 
+    @Column(columnDefinition=DECIMAL+"'上日结算'")
+    private BigDecimal yesterdaySettlement;
+    @Column(columnDefinition=DECIMAL+"'平仓价'")
+    private BigDecimal unwindPrice;
 }

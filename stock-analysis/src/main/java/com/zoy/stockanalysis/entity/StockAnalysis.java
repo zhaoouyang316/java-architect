@@ -16,16 +16,16 @@ import java.util.Date;
 @Data
 @ToString(callSuper = true)
 @Entity
-@Table(name="stock_analysis")
+@Table(name="t_stock_analysis")
 public class StockAnalysis extends BaseAutoId implements Serializable{
 
     private static final long serialVersionUID = 6189793642569280182L;
 
     @Column(columnDefinition= STRING+"'策略名称'")
     private String stockName;
-    @Column(columnDefinition= DATETIME+"'买入时间'")
-    private Date buyTime;
-    @Column(columnDefinition= DATETIME+"'卖出时间'")
-    private Date sellTime;
+    @Column(columnDefinition= STRING+"'买入时间'")
+    private String buyTime;
+    @Column(columnDefinition= STRING+"'卖出时间'")
+    private String sellTime;
 
 }

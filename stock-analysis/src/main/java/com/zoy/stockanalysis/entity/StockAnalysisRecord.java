@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 @Data
 @ToString(callSuper = true)
 @Entity
-@Table(name="stock_analysis_record")
+@Table(name="t_stock_analysis_record")
 public class StockAnalysisRecord extends BaseAutoId implements Serializable {
 
     private static final long serialVersionUID = 7012824458698890667L;
@@ -31,5 +31,8 @@ public class StockAnalysisRecord extends BaseAutoId implements Serializable {
     private BigDecimal settlementPrice;
     @Column(columnDefinition = INT+"'状态 0 大盘跌 1 大盘涨'")
     private Integer broaderMarketStatus;
-
+    @Column(columnDefinition=DECIMAL+"'上日结算'")
+    private BigDecimal yesterdaySettlement;
+    @Column(columnDefinition=DECIMAL+"'总结余'")
+    private BigDecimal totalSettlement;
 }
