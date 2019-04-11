@@ -30,7 +30,8 @@ public interface StockPriceRecordService {
      * @param bigMarketTypeEnum 大盘类型
      * @param positionNumber 持仓数量
      * @param yesterdaySettlement 上日结算
+     * @param volatilityPercentage 波动比率
      * @return
      */
-    StockPriceRecord saveByArray(String arr, Long bigMarketId, Integer broaderMarketStatus, Long stockAnalysisId, String stockCode, BigMarketTypeEnum bigMarketTypeEnum, StockStatusEnum stockStatusEnum, Long positionNumber, BigDecimal yesterdaySettlement);
+    StockPriceRecord saveByArray(String arr, Long bigMarketId, Integer broaderMarketStatus, Long stockAnalysisId, String stockCode, BigMarketTypeEnum bigMarketTypeEnum, StockStatusEnum stockStatusEnum, Long positionNumber, BigDecimal yesterdaySettlement,BigDecimal volatilityPercentage);
 }

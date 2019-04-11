@@ -40,6 +40,4 @@ public class StockAnalysisRecord extends BaseAutoId implements Serializable {
     private BigDecimal yesterdaySettlement;
     @Column(columnDefinition=DECIMAL+"'总结余'")
     private BigDecimal totalSettlement;
-    @Column(columnDefinition=DECIMAL+"'波动百分比'")
-    private BigDecimal volatilityPercentage;
 }

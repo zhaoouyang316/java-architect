@@ -102,7 +102,7 @@ public class ItemStockServiceImpl implements ItemStockService {
                         }
                         StockPriceRecord stockPriceRecord=tockPriceRecordService.saveByArray(resStockBody,bigMarket.getId()
                                 ,broaderMarketStatus,stockAnalysisId,stockCode
-                                ,bigMarketTypeEnum, StockStatusEnum.POSITION,positionNumber,BigDecimal.valueOf(0));
+                                ,bigMarketTypeEnum, StockStatusEnum.POSITION,positionNumber,BigDecimal.valueOf(0),null);
                         if(stockPriceRecord!=null){
                             flag=true;
                         }else{
@@ -222,12 +222,14 @@ public class ItemStockServiceImpl implements ItemStockService {
 
                     spotSettlementRecord = spotSettlementRecord.add(yesterdaySettlement);
 
+                    // 波动比率 = (新价格-旧价格)/旧价格
+                    Double volatilityPercentage=(newPrice.doubleValue()-yesterdayPrice.doubleValue())/yesterdayPrice.doubleValue();
                     // 平仓
                     StockPriceRecord spd = stockPriceRecordService.saveByArray(stockPriceBody, bigMarket.getId(), broaderMarketStatus,
                             stockPriceRecord.getStockAnalysisId()
                             , stockPriceRecord.getStockCode(), bigMarketTypeEnum,
                             StockStatusEnum.UNWIND, stockPriceRecord.getPositionNumber()
-                            , yesterdaySettlement);
+                            , yesterdaySettlement,BigDecimal.valueOf(volatilityPercentage));
 
 
                     // 修改旧记录状态为平仓
@@ -255,7 +257,6 @@ public class ItemStockServiceImpl implements ItemStockService {
                 }
             }
 
-
             if (flag) {
                 // 股票策略记录表
                 StockAnalysisRecord sards=new StockAnalysisRecord();
@@ -263,6 +264,7 @@ public class ItemStockServiceImpl implements ItemStockService {
                 sards.setId(null);
                 sards.setUpdateTime(null);
                 StockAnalysisRecord sard = stockAnalysisRecordService.getByStockAnalysisId(sards);
+
                 // 第一次平仓
                 if (ObjectUtils.isEmpty(sard)) {
                     // 新增股票策略记录

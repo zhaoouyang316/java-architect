@@ -64,7 +64,7 @@ public class StockPriceRecordServiceImpl implements StockPriceRecordService {
                                         Integer broaderMarketStatus,Long stockAnalysisId,
                                         String stockCode,BigMarketTypeEnum bigMarketTypeEnum,
                                         StockStatusEnum stockStatusEnum,Long positionNumber,
-                                        BigDecimal yesterdaySettlement) {
+                                        BigDecimal yesterdaySettlement,BigDecimal volatilityPercentage) {
 
         String[] stockPriceArr=arr.split("\"")[1].split(",");
         StockPriceRecord stockPriceRecord=new StockPriceRecord();
@@ -116,10 +116,12 @@ public class StockPriceRecordServiceImpl implements StockPriceRecordService {
         stockPriceRecord.setStatus(StatusEnum.ACTIVE.getValue());
 
         // 根据设定购买金额计算购买股票数量
-        // 平仓与持仓
+        // 平仓
         if(StockStatusEnum.UNWIND.getValue().equals(stockStatusEnum.getValue())){
             stockPriceRecord.setPositionNumber(positionNumber);
+            stockPriceRecord.setVolatilityPercentage(volatilityPercentage);
         }else{
+        // 持仓
             String str=(BigDecimal.valueOf(positionNumber).divide(stockPriceRecord.getSpotPrice(),BigDecimal.ROUND_HALF_UP)).toString();
             str=str.substring(0,str.length()-2)+"00";
             stockPriceRecord.setPositionNumber(Long.valueOf(str));

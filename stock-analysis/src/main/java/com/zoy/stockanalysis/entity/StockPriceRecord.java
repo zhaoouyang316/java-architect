@@ -108,4 +108,6 @@ public class StockPriceRecord extends BaseAutoId implements Serializable{
     private Integer bigMarketTypeEnum;
     @Column(columnDefinition=BIGINT+"'持仓数量'")
     private Long positionNumber;
+    @Column(columnDefinition=DECIMAL+"'波动百分比'")
+    private BigDecimal volatilityPercentage;
 }
