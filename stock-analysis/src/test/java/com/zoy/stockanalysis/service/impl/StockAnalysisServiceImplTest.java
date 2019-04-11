@@ -31,16 +31,7 @@ public class StockAnalysisServiceImplTest {
     private StockAnalysisService stockAnalysisService;
 
     @Autowired
-    private BigMarketService bigMarketService;
-
-    @Autowired
-    private StockPriceRecordService stockPriceRecordService;
-
-    @Autowired
     private ItemStockService itemStockService;
-
-    @Autowired
-    private StockAnalysisRecordService stockAnalysisRecordService;
 
 
 
@@ -86,12 +77,6 @@ public class StockAnalysisServiceImplTest {
         StockAnalysis stockAnalysis=new StockAnalysis();
         stockAnalysis.setStockName("热门板块换手率高涨幅低的");
         stockAnalysis.setBuyTime("01:00");
-        // 卖出时间 = 当前时间加一天的第二天 10:00
-        /*Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY,10);
-        calendar.set(Calendar.MINUTE,0);
-        calendar.set(Calendar.SECOND,0);
-        Date sellTime=DateUtil.getAfterDayDate(calendar);*/
         stockAnalysis.setStatus(StatusEnum.ACTIVE.getValue());
         stockAnalysis.setSellTime("9:24");
         stockAnalysis.setCreateTime(new Date());

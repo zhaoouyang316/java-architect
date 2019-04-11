@@ -22,7 +22,6 @@ import java.math.BigDecimal;
 @Data
 @ToString(callSuper = true)
 @Entity
-@DynamicUpdate(true)
 @Table(name="t_stock_analysis_record")
 public class StockAnalysisRecord extends BaseAutoId implements Serializable {
 

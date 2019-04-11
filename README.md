@@ -23,6 +23,7 @@ jdbc
 stock-analysis
 - doc
     - stock-analysis.sql 关联sql
+    
 
 ### 需求来源
     买股票看别人的总是没有依据，而且行情总是会变动，专业书籍深涩难懂，而且不符合实际，根据别人的方法去操作，总是会亏钱。
@@ -33,19 +34,39 @@ stock-analysis
     
 ### 功能
     买入股票
-        根据股票代码买入
-        设定金额，自动计算买入股票数量
+        根据股票代码买入（已完成）
+        设定金额，自动计算买入股票数量（已完成）
     卖出股票
-        卖出全部股票
+        卖出全部股票（已完成）
+        自动卖出（待完成）
     策略排行榜
-        根据时间统计排行榜
-        统计涨幅低于3%的盈利比率
-        统计涨幅高于5%的盈利比率
-        统计涨幅3%-5%的盈利比率
-        
-        统计跌幅最大的股票里面的特性，规避风险
+        根据时间统计排行榜（待完成）
+        统计涨幅低于3%的盈利比率 （待完成）
+        统计涨幅高于5%的盈利比率 （待完成）
+        统计涨幅3%-5%的盈利比率 （待完成）
+        统计跌幅最大的股票里面的特性，规避风险（待完成）
+
         
 ### 执行步骤：
-    1 新增策略
+    1 修改mysql连接
+    2 通过jpa初始化表
+        StockAnalysisServiceImplTest.findAll
+    3 新增策略
         StockAnalysisServiceImplTest.addStockAnalysis
-    2 复制策略ID,新增股票接口的策略ID
+    4 买入股票   
+        1 复制策略ID
+        2 修改股票代码，策略编号，购买金额
+          StockAnalysisServiceImplTest.buyStockPrice
+    5 平仓
+        StockAnalysisServiceImplTest.sellStockPrice
+    6 查看盈亏
+        select * from t_stock_analysis_record
+        
+### 最高理想
+       通过大数据+ai决策加权训练选股模型 
+       接入第三方系统，实现自动化交易
+### 共同理想
+       通过系统管理好自己的决策，通过数据来提升自我认知，选择出合适的适合自己的决策策略。
+       
+
+       
