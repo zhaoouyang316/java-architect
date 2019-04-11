@@ -16,7 +16,9 @@ public interface StockPriceRecordService {
 
     List<StockPriceRecord> findAll();
     StockPriceRecord save(StockPriceRecord stockPriceRecord);
+    StockPriceRecord saveAndFlush(StockPriceRecord stockPriceRecord);
     List<StockPriceRecord> findAll(StockPriceRecord stockPriceRecord);
+    StockPriceRecord findById(StockPriceRecord stockPriceRecord);
 
     /**
      * 保存股票行情

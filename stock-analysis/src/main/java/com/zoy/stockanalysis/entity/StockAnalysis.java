@@ -2,6 +2,9 @@ package com.zoy.stockanalysis.entity;
 import com.zoy.stockanalysis.entity.base.BaseAutoId;
 import lombok.Data;
 import lombok.ToString;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.SelectBeforeUpdate;
 
 import javax.persistence.*;
 import java.io.Serializable;

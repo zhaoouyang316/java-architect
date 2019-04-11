@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.NumberUtils;
 
 import java.math.BigDecimal;
@@ -38,6 +39,11 @@ public class StockAnalysisRecordServiceImpl implements StockAnalysisRecordServic
     }
 
     @Override
+    public StockAnalysisRecord saveAndFlush(StockAnalysisRecord stockAnalysisRecord) {
+        return stockAnalysisRecordRepository.saveAndFlush(stockAnalysisRecord);
+    }
+
+    @Override
     public List<StockAnalysisRecord> findAll(StockAnalysisRecord stockAnalysisRecord) {
         stockAnalysisRecordRepository.findAll();
         return null;
@@ -49,7 +55,8 @@ public class StockAnalysisRecordServiceImpl implements StockAnalysisRecordServic
         ExampleMatcher matcher = ExampleMatcher.matching()
                 .withMatcher("stockAnalysisId", ExampleMatcher.GenericPropertyMatchers.contains());
         Example<StockAnalysisRecord> ex = Example.of(stockAnalysisRecord, matcher);
-        return stockAnalysisRecordRepository.findOne(ex).get();
+        List<StockAnalysisRecord> list=stockAnalysisRecordRepository.findAll(ex);
+        return CollectionUtils.isEmpty(list)?null:list.get(0);
     }
 
 

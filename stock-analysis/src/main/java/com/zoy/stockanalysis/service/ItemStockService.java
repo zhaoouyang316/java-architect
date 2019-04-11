@@ -18,7 +18,7 @@ public interface ItemStockService {
     /**
      * 卖出股票
       */
-    void sellStock();
+    void sellStock() throws Exception;
 
     // 根据时间统计排行榜
     // 统计涨幅低于3%的盈利比率

@@ -4,6 +4,9 @@ import com.zoy.stockanalysis.entity.base.BaseAutoId;
 import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.SelectBeforeUpdate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,6 +25,7 @@ import java.util.Date;
 @ToString(callSuper = true)
 @Entity
 @Table(name="t_stock_price_record")
+@DynamicUpdate(true)
 public class StockPriceRecord extends BaseAutoId implements Serializable{
 
     private static final long serialVersionUID = -2256839563977327100L;

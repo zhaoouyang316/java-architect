@@ -11,6 +11,7 @@ import com.zoy.stockanalysis.service.StockAnalysisService;
 import com.zoy.utils.SnowFlakeIdGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.NumberUtils;
 
 import java.math.BigDecimal;
@@ -44,6 +45,7 @@ public class BigMarketServiceImpl implements BigMarketService {
     }
 
     @Override
+    @Transactional
     public BigMarket saveByArray(String arr,BigMarketTypeEnum bigMarketTypeEnum) {
         String[] bigMarketArr=arr.split("\"")[1].split(",");
         BigMarket bigMarket=new BigMarket();

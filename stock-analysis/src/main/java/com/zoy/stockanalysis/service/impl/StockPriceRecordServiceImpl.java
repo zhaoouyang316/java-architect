@@ -39,6 +39,12 @@ public class StockPriceRecordServiceImpl implements StockPriceRecordService {
     }
 
     @Override
+    public StockPriceRecord saveAndFlush(StockPriceRecord stockPriceRecord) {
+        return stockPriceRecordRepository.saveAndFlush(stockPriceRecord);
+    }
+
+
+    @Override
     public List<StockPriceRecord> findAll(StockPriceRecord stockPriceRecord) {
         //构建对象
         ExampleMatcher matcher = ExampleMatcher.matching()
@@ -46,6 +52,11 @@ public class StockPriceRecordServiceImpl implements StockPriceRecordService {
                 .withMatcher("stockAnalysisId", ExampleMatcher.GenericPropertyMatchers.contains());
         Example<StockPriceRecord> ex = Example.of(stockPriceRecord, matcher);
         return stockPriceRecordRepository.findAll(ex);
+    }
+
+    @Override
+    public StockPriceRecord findById(StockPriceRecord stockPriceRecord) {
+        return stockPriceRecordRepository.findById(stockPriceRecord.getId()).orElse(null);
     }
 
     @Override
@@ -101,9 +112,18 @@ public class StockPriceRecordServiceImpl implements StockPriceRecordService {
         stockPriceRecord.setBroaderMarketStatus(broaderMarketStatus);
         stockPriceRecord.setStockCode(stockCode);
         stockPriceRecord.setBigMarketTypeEnum(bigMarketTypeEnum.getValue());
-        stockPriceRecord.setPositionNumber(positionNumber);
         stockPriceRecord.setYesterdaySettlement(yesterdaySettlement);
         stockPriceRecord.setStatus(StatusEnum.ACTIVE.getValue());
+
+        // 根据设定购买金额计算购买股票数量
+        // 平仓与持仓
+        if(StockStatusEnum.UNWIND.getValue().equals(stockStatusEnum.getValue())){
+            stockPriceRecord.setPositionNumber(positionNumber);
+        }else{
+            String str=(BigDecimal.valueOf(positionNumber).divide(stockPriceRecord.getSpotPrice(),BigDecimal.ROUND_HALF_UP)).toString();
+            str=str.substring(0,str.length()-2)+"00";
+            stockPriceRecord.setPositionNumber(Long.valueOf(str));
+        }
 
         return stockPriceRecordRepository.save(stockPriceRecord);
     }
