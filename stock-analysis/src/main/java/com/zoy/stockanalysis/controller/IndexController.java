@@ -1,11 +1,17 @@
 package com.zoy.stockanalysis.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.zoy.common.enums.StatusEnum;
+import com.zoy.stockanalysis.entity.StockAnalysis;
+import com.zoy.stockanalysis.service.ItemStockService;
 import com.zoy.stockanalysis.service.StockAnalysisService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Date;
 
 /**
  * @author : owen
@@ -14,16 +20,55 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @Slf4j
-@RequestMapping("/index")
+@RequestMapping("/stock")
 public class IndexController {
 
     @Autowired
+    private ItemStockService itemStockService;
+    @Autowired
     private StockAnalysisService stockAnalysisService;
 
-    @GetMapping(value = "/search")
-    public String search(){
-        System.out.println(1);
-        return "1";
+    @GetMapping(value = "/buy")
+    public String buyStock(String stockCode,Long stockAnalysisId,Long positionNumber) throws Exception {
+        JSONObject json=new JSONObject();
+
+        String[] strCodeArr=stockCode.split(",");
+        Integer flagIndex=0;
+        String errorCode="";
+        for(String str:strCodeArr){
+            Thread.sleep(200);
+            if(itemStockService.buyStock(str,stockAnalysisId,positionNumber)){
+                flagIndex+=1;
+            }else{
+                errorCode+=str+",";
+            }
+        }
+        json.put("okNum",flagIndex);
+        return json.toJSONString();
+    }
+
+    @GetMapping(value = "/sell")
+    public String sellAllStock() throws Exception {
+        itemStockService.sellStock();
+        return "ok";
+    }
+
+    @GetMapping(value = "/addAnalysis")
+    public String addAnalysis(String stockName,String sellTime,String buyTime) throws Exception {
+        StockAnalysis stockAnalysis=new StockAnalysis();
+        stockAnalysis.setStockName(stockName);
+        stockAnalysis.setBuyTime(buyTime);
+        stockAnalysis.setStatus(StatusEnum.ACTIVE.getValue());
+        stockAnalysis.setSellTime(sellTime);
+        stockAnalysis.setCreateTime(new Date());
+        StockAnalysis ss=stockAnalysisService.save(stockAnalysis);
+        return JSONObject.toJSONString(ss);
+    }
+
+    @GetMapping(value = "/searchStock")
+    public String searchStock(Long stockAnalysisId) throws Exception {
+        //169039296274104320L
+        return itemStockService.searchStock(stockAnalysisId);
     }
 
 }

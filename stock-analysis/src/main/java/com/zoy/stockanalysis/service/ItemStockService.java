@@ -20,6 +20,11 @@ public interface ItemStockService {
       */
     void sellStock() throws Exception;
 
+    /**
+     * 查看持仓盈亏
+     */
+    String searchStock(Long stockAnalysisId) throws Exception;
+
     // 根据时间统计排行榜
     // 统计涨幅低于3%的盈利比率
     // 统计涨幅高于5%的盈利比率

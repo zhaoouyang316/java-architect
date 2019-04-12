@@ -75,10 +75,10 @@ public class StockAnalysisServiceImplTest {
     @Test
     public void addStockAnalysis(){
         StockAnalysis stockAnalysis=new StockAnalysis();
-        stockAnalysis.setStockName("热门板块换手率高涨幅低的");
-        stockAnalysis.setBuyTime("01:00");
+        stockAnalysis.setStockName("量比大于5，涨跌幅大于7%，总市值20～50亿");
+        stockAnalysis.setBuyTime("11:18");
         stockAnalysis.setStatus(StatusEnum.ACTIVE.getValue());
-        stockAnalysis.setSellTime("9:24");
+        stockAnalysis.setSellTime("9:25");
         stockAnalysis.setCreateTime(new Date());
         stockAnalysisService.save(stockAnalysis);
         System.out.println("新增策略成功！");
@@ -88,12 +88,11 @@ public class StockAnalysisServiceImplTest {
      * 买入股票
      */
     @Test
-    @Transactional(rollbackFor = Exception.class)
     public void buyStockPrice() throws Exception {
         // 股票代码
-        String strCode="002639";
+        String strCode="002321";
         // 策略编号
-        Long stockAnalysisId=168707356354412544L;
+        Long stockAnalysisId=169043579837087744L;
         // 购买金额
         Long positionNumber=10000L;
 
@@ -119,6 +118,15 @@ public class StockAnalysisServiceImplTest {
     @Test
     public void sellStockPrice() throws Exception {
         itemStockService.sellStock();
+    }
+
+    /**
+     * 查看盈亏
+     */
+    @Test
+    public void searchStock() throws Exception {
+       String jsonStr=itemStockService.searchStock(169039296274104320L);
+       System.out.println(jsonStr);
     }
 
 }

@@ -1,5 +1,7 @@
 package com.zoy.stockanalysis.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.zoy.common.enums.BigMarketTypeEnum;
 import com.zoy.common.enums.StatusEnum;
 import com.zoy.common.enums.StockStatusEnum;
@@ -310,5 +312,188 @@ public class ItemStockServiceImpl implements ItemStockService {
 
 
         }
+
+
+
+    }
+
+    @Override
+    public String searchStock(Long stockAnalysisId) throws Exception {
+
+        // TODO: 2019/4/11 待优化，改为map形式
+        StockAnalysis sas=new StockAnalysis();
+        sas.setStatus(StatusEnum.ACTIVE.getValue());
+        sas.setId(stockAnalysisId);
+        sas.setUpdateTime(null);
+
+        // 查询所有有效的策略
+        List<StockAnalysis> listStockAnalysis=stockAnalysisService.findAll(sas);
+
+        JSONObject json=new JSONObject();
+
+        JSONArray jsonArray=new JSONArray();
+
+        int count=0;
+        for (StockAnalysis stockAnalysis : listStockAnalysis) {
+            // 大盘涨跌（上证）
+            Integer shBtStatus = null;
+            // 大盘涨跌（深证）
+            Integer szBtStatus = null;
+
+            // TODO: 2019/4/11 待优化
+            StockPriceRecord sprd = new StockPriceRecord();
+            sprd.setPositionsStatus(StockStatusEnum.POSITION.getValue());
+            sprd.setStockAnalysisId(stockAnalysis.getId());
+            sprd.setId(null);
+            sprd.setUpdateTime(null);
+            // 根据策略编号 查询所有持仓中的股票
+            List<StockPriceRecord> listStockPriceRecord = stockPriceRecordService.findAll(sprd);
+
+            // 当日策略的结算价
+            BigDecimal spotSettlementRecord = BigDecimal.valueOf(0);
+
+            // 是否操作成功
+            boolean flag = false;
+
+            // 遍历股票
+            for (StockPriceRecord stockPriceRecord : listStockPriceRecord) {
+                Thread.sleep(200);
+                // 获取网络请求工具类实例
+                HttpUtils httpUtils = HttpUtils.getInstance();
+                Response resSh = null;
+                Response resSz = null;
+                // 大盘指数
+                String bigMarketBody = null;
+                // 股票行情价格
+                String stockPriceBody = null;
+
+                BigMarketTypeEnum bigMarketTypeEnum = null;
+
+                // 判断是否是上证
+                if (ObjectUtils.nullSafeEquals(BigMarketTypeEnum.SH.getValue(),
+                        stockPriceRecord.getBigMarketTypeEnum())) {
+                    resSh = httpUtils.getDataSynFromNet(bigmarketUrlSh);
+                    bigMarketBody = resSh.body().string();
+                    // 查询上证股票
+                    resSh = httpUtils.getDataSynFromNet(stockUrlSh + stockPriceRecord.getStockCode());
+                    stockPriceBody = resSh.body().string();
+                    bigMarketTypeEnum = BigMarketTypeEnum.SH;
+                } else {
+                    resSz = httpUtils.getDataSynFromNet(bigmarketUrlSz);
+                    bigMarketBody = resSz.body().string();
+                    // 查询深证股票
+                    resSz = httpUtils.getDataSynFromNet(stockUrlSz + stockPriceRecord.getStockCode());
+                    stockPriceBody = resSz.body().string();
+                    bigMarketTypeEnum = BigMarketTypeEnum.SZ;
+                }
+
+                log.info("bigMarket callback {}", bigMarketBody);
+                BigMarket bigMarket = bigMarketService.saveByArray(bigMarketBody, bigMarketTypeEnum);
+                if (bigMarket != null) {
+                    // 拼接大盘编号
+                    log.info("stockPriceRecord callback {}", stockPriceBody);
+                    // 将价格入库
+                    Integer broaderMarketStatus = 0;
+                    // 判断大盘跌还是涨
+                    if (bigMarket.getVolatilityPrice().compareTo(new BigDecimal(0L)) == 1) {
+                        broaderMarketStatus = 1;
+                    }
+
+                    // 得到最新价格
+                    String[] stockPriceArr = stockPriceBody.split("\"")[1].split(",");
+                    BigDecimal nPrice = NumberUtils.parseNumber(stockPriceArr[3], BigDecimal.class);
+
+                    // 盈亏(上日结算) = 最新股价*持仓数量-（买入价格*持仓数量）
+                    // 昨日价格
+                    BigDecimal yesterdayPrice = stockPriceRecord.getSpotPrice().multiply(BigDecimal.valueOf(stockPriceRecord.getPositionNumber()));
+                    // 最新价格
+                    BigDecimal newPrice = nPrice.multiply(BigDecimal.valueOf(stockPriceRecord.getPositionNumber()));
+                    // 上日结算
+                    BigDecimal yesterdaySettlement = newPrice.subtract(yesterdayPrice);
+
+                    spotSettlementRecord = spotSettlementRecord.add(yesterdaySettlement);
+
+                    // 波动比率 = (新价格-旧价格)/旧价格
+                    Double volatilityPercentage=(newPrice.doubleValue()-yesterdayPrice.doubleValue())/yesterdayPrice.doubleValue();
+
+                    System.out.println("股票买入单价："+ stockPriceRecord.getSpotPrice());
+                    System.out.println("股票最新单价："+ nPrice);
+                    System.out.println("股票买入数量："+ stockPriceRecord.getPositionNumber());
+
+                    System.out.println("股票名称："+stockPriceRecord.getStockName());
+                    System.out.println("股票代码："+stockPriceRecord.getStockCode());
+                    System.out.println("波动比率："+volatilityPercentage);
+                    System.out.println("波动价格："+yesterdaySettlement);
+                    System.out.println("===================分割线=======================");
+
+                    JSONObject jsonStr=new JSONObject();
+                    jsonStr.put("spotPrice",stockPriceRecord.getSpotPrice());
+                    jsonStr.put("newPrice",nPrice);
+                    jsonStr.put("positionNumber",stockPriceRecord.getPositionNumber());
+                    jsonStr.put("stockName",stockPriceRecord.getStockName());
+                    jsonStr.put("stockCode",stockPriceRecord.getStockCode());
+                    jsonStr.put("volatilityPercentage",stockPriceRecord.getVolatilityPercentage());
+                    jsonStr.put("yesterdaySettlement",stockPriceRecord.getYesterdaySettlement());
+                    jsonArray.add(json);
+                }
+            }
+
+                // 股票策略记录表
+                StockAnalysisRecord sards=new StockAnalysisRecord();
+                sards.setStockAnalysisId(stockAnalysis.getId());
+                sards.setId(null);
+                sards.setUpdateTime(null);
+                StockAnalysisRecord sard = stockAnalysisRecordService.getByStockAnalysisId(sards);
+
+                // 第一次平仓
+                if (ObjectUtils.isEmpty(sard)) {
+                    // 新增股票策略记录
+                    StockAnalysisRecord stockAnalysisRecord = new StockAnalysisRecord();
+                    stockAnalysisRecord.setSettlementPrice(spotSettlementRecord);
+                    stockAnalysisRecord.setStockAnalysisId(stockAnalysis.getId());
+                    stockAnalysisRecord.setStockName(stockAnalysis.getStockName());
+                    stockAnalysisRecord.setTotalSettlement(spotSettlementRecord);
+                    // 优先插入上证，如果策略中没有上证的就插入深证的大盘涨跌
+                    if (shBtStatus != null) {
+                        stockAnalysisRecord.setBroaderMarketStatus(shBtStatus);
+                    } else {
+                        stockAnalysisRecord.setBroaderMarketStatus(szBtStatus);
+                    }
+                    stockAnalysisRecord.setStatus(StockStatusEnum.POSITION.getValue());
+                    // stockAnalysisRecordService.save(stockAnalysisRecord);
+                } else {
+                    StockAnalysisRecord stockAnalysisRecord = new StockAnalysisRecord();
+                    // 结算价=最新价
+                    stockAnalysisRecord.setSettlementPrice(spotSettlementRecord);
+                    // 上日结算=结算价
+                    stockAnalysisRecord.setTotalSettlement(sard.getSettlementPrice());
+                    // 总结余=总结余+新总结余
+                    stockAnalysisRecord.setTotalSettlement(spotSettlementRecord.add(sard.getTotalSettlement()));
+                    stockAnalysisRecord.setStockAnalysisId(stockAnalysis.getId());
+                    stockAnalysisRecord.setStockName(stockAnalysis.getStockName());
+                    // 优先插入上证，如果策略中没有上证的就插入深证的大盘涨跌
+                    if (shBtStatus != null) {
+                        stockAnalysisRecord.setBroaderMarketStatus(shBtStatus);
+                    } else {
+                        stockAnalysisRecord.setBroaderMarketStatus(szBtStatus);
+                    }
+                    // stockAnalysisRecordService.save(stockAnalysisRecord);
+
+                    StockAnalysisRecord sardNew=new StockAnalysisRecord();
+                    BeanUtils.copyProperties(sard,sardNew);
+                    sardNew.setId(sard.getId());
+                    sardNew.setStatus(StockStatusEnum.UNWIND.getValue());
+                    // 修改状态为平仓
+                    // stockAnalysisRecordService.saveAndFlush(sardNew);
+
+                    // System.out.println("总结余："+stockAnalysisRecord.getTotalSettlement());
+                }
+                json.put("list",jsonArray);
+                json.put("spotSettlement",spotSettlementRecord);
+                // System.out.println("总结余："+spotSettlementRecord);
+            }
+
+            return json.toJSONString();
+
     }
 }

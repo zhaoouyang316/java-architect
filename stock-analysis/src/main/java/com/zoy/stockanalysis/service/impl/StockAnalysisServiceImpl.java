@@ -36,7 +36,8 @@ public class StockAnalysisServiceImpl implements StockAnalysisService{
     public List<StockAnalysis> findAll(StockAnalysis stockAnalysis) {
         //构建对象
         ExampleMatcher matcher = ExampleMatcher.matching()
-                .withMatcher("status", ExampleMatcher.GenericPropertyMatchers.contains());
+                .withMatcher("status", ExampleMatcher.GenericPropertyMatchers.contains())
+                .withMatcher("id", ExampleMatcher.GenericPropertyMatchers.contains());
         Example<StockAnalysis> ex = Example.of(stockAnalysis, matcher);
        return stockAnalysisRepository.findAll(ex);
     }
