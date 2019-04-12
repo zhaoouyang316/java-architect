@@ -434,7 +434,7 @@ public class ItemStockServiceImpl implements ItemStockService {
                     jsonStr.put("stockCode",stockPriceRecord.getStockCode());
                     jsonStr.put("volatilityPercentage",stockPriceRecord.getVolatilityPercentage());
                     jsonStr.put("yesterdaySettlement",stockPriceRecord.getYesterdaySettlement());
-                    jsonArray.add(json);
+                    jsonArray.add(jsonStr);
                 }
             }
 
@@ -490,10 +490,7 @@ public class ItemStockServiceImpl implements ItemStockService {
                 }
                 json.put("list",jsonArray);
                 json.put("spotSettlement",spotSettlementRecord);
-                // System.out.println("总结余："+spotSettlementRecord);
             }
-
             return json.toJSONString();
-
     }
 }

@@ -28,6 +28,14 @@ public class IndexController {
     @Autowired
     private StockAnalysisService stockAnalysisService;
 
+    /**
+     * 买入股票
+     * @param stockCode
+     * @param stockAnalysisId
+     * @param positionNumber
+     * @return
+     * @throws Exception
+     */
     @GetMapping(value = "/buy")
     public String buyStock(String stockCode,Long stockAnalysisId,Long positionNumber) throws Exception {
         JSONObject json=new JSONObject();
@@ -47,12 +55,35 @@ public class IndexController {
         return json.toJSONString();
     }
 
-    @GetMapping(value = "/sell")
+    /**
+     * 卖出全部股票
+     * @return
+     * @throws Exception
+     */
+    @GetMapping(value = "/sellAll")
     public String sellAllStock() throws Exception {
         itemStockService.sellStock();
         return "ok";
     }
 
+    /**
+     * 根据股票代码卖出股票
+     * @return
+     * @throws Exception
+     */
+    @GetMapping(value = "/sellAll")
+    public String sellStockByCode() throws Exception {
+        return "ok";
+    }
+
+    /**
+     * 新增策略
+     * @param stockName
+     * @param sellTime
+     * @param buyTime
+     * @return
+     * @throws Exception
+     */
     @GetMapping(value = "/addAnalysis")
     public String addAnalysis(String stockName,String sellTime,String buyTime) throws Exception {
         StockAnalysis stockAnalysis=new StockAnalysis();
@@ -65,6 +96,12 @@ public class IndexController {
         return JSONObject.toJSONString(ss);
     }
 
+    /**
+     * 查看持仓
+     * @param stockAnalysisId
+     * @return
+     * @throws Exception
+     */
     @GetMapping(value = "/searchStock")
     public String searchStock(Long stockAnalysisId) throws Exception {
         //169039296274104320L
