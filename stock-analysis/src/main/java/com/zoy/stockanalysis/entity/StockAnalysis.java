@@ -30,6 +30,7 @@ public class StockAnalysis extends BaseAutoId implements Serializable{
     private String buyTime;
     @Column(columnDefinition= STRING+"'卖出时间'")
     private String sellTime;
-
+    @Column(columnDefinition= INT+"'权重（盈利最多+2，亏损最多-2，盈利普通+1，亏损普通-1），暂时手动设置'")
+    private Integer weight;
 
 }

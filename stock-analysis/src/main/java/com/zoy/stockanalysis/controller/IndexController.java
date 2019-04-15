@@ -1,5 +1,6 @@
 package com.zoy.stockanalysis.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zoy.common.enums.StatusEnum;
 import com.zoy.stockanalysis.entity.StockAnalysis;
@@ -66,15 +67,6 @@ public class IndexController {
         return "ok";
     }
 
-    /**
-     * 根据股票代码卖出股票
-     * @return
-     * @throws Exception
-     */
-    @GetMapping(value = "/sellAll")
-    public String sellStockByCode() throws Exception {
-        return "ok";
-    }
 
     /**
      * 新增策略
@@ -106,6 +98,18 @@ public class IndexController {
     public String searchStock(Long stockAnalysisId) throws Exception {
         //169039296274104320L
         return itemStockService.searchStock(stockAnalysisId);
+    }
+
+
+    /**
+     * 查看策略
+     * @return
+     * @throws Exception
+     */
+    @GetMapping(value = "/searchAnalysis")
+    public String searchAnalysis() throws Exception {
+        //169039296274104320L
+        return JSONObject.toJSONString(stockAnalysisService.findAll());
     }
 
 }
