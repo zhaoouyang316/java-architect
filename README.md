@@ -55,6 +55,10 @@
         utils     工具类
         
 #### 执行步骤：
+
+
+##### 测试类走流程
+
     1 修改mysql连接
     2 通过jpa初始化表
         StockAnalysisServiceImplTest.findAll
@@ -68,6 +72,45 @@
         StockAnalysisServiceImplTest.sellStockPrice
     6 查看盈亏
         select * from t_stock_analysis_record
+
+##### 接口走流程
+
+查询策略接口
+ 
+    stock/searchAnalysis
+    
+新增策略接口
+ 
+    stock/addAnalysis?stockName=短线追涨停股&sellTime=9:25&buyTime=11:00
+    
+    参数说明： 
+        
+        sellTime：       卖出时间
+        buyTime：        买入时间
+        stockName:       策略名称
+    
+    
+买入股票接口
+ 
+    stock/buy?stockCode=002210,002167,600708,000531&stockAnalysisId=170145427889324032&positionNumber=10000
+    
+    参数说明：
+        
+        stockCode：股票代码
+        stockAnalysisId: 策略编号
+        positionNumber：购买金额
+
+卖出股票接口：
+
+    stock/sellAll
+    
+查询持仓接口：
+
+    stock/searchStock?stockAnalysisId=170145427889324032
+    
+    参数说明：
+        
+        stockAnalysisId：策略编号              
         
 
 #### 初级目标
