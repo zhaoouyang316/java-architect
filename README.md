@@ -132,9 +132,13 @@ jdbc
     - java-architect.sql                //测试sql
 - com.zoy.jdbc.JdbcUtilsFactory.java    //测试类
 
-### 二 、Mybatis与jps整合
+### 二 、Mybatis与jpa整合
 
-  
+
+### 三 、Mybatis与MybatisPlus整合
+
+
+
 
 
        
