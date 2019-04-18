@@ -1,5 +1,6 @@
 package com.zoy.stockanalysis.service.impl;
 
+import cn.hutool.core.util.NumberUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.zoy.common.enums.BigMarketTypeEnum;
@@ -226,6 +227,9 @@ public class ItemStockServiceImpl implements ItemStockService {
 
                     // 波动比率 = (新价格-旧价格)/旧价格
                     Double volatilityPercentage=(newPrice.doubleValue()-yesterdayPrice.doubleValue())/yesterdayPrice.doubleValue();
+                    if(!NumberUtil.isNumber(volatilityPercentage.toString())){
+                        volatilityPercentage=0d;
+                    }
                     // 平仓
                     StockPriceRecord spd = stockPriceRecordService.saveByArray(stockPriceBody, bigMarket.getId(), broaderMarketStatus,
                             stockPriceRecord.getStockAnalysisId()
@@ -240,6 +244,7 @@ public class ItemStockServiceImpl implements ItemStockService {
                     oldSpd.setId(stockPriceRecord.getId());
                     oldSpd.setPositionsStatus(StockStatusEnum.UNWIND.getValue());
                     oldSpd.setStatus(StatusEnum.DISABLE.getValue());
+                    // oldSpd.setVolatilityPercentage(BigDecimal.valueOf(volatilityPercentage));
 
                     stockPriceRecordService.saveAndFlush(oldSpd);
 

@@ -100,11 +100,11 @@
         stockAnalysisId: 策略编号
         positionNumber：购买金额
 
-卖出股票接口：
+卖出股票接口
 
     stock/sellAll
     
-查询持仓接口：
+查询持仓接口
 
     stock/searchStock?stockAnalysisId=170145427889324032
     
@@ -124,13 +124,15 @@
        接入第三方系统，实现自动化交易
        
 
-## 技术系统（ 平时也在修炼功法，希望可以得到各位大神的Review ）     
+## 技术模块（ 欢迎fork ）     
  
-### 一 、高并发下单例模式、枚举实现、JDBC工具类
+### 一 、高并发下单例、枚举实现、JDBC工具类
 jdbc
 - doc
-    - java-architect.sql  关联的sql
-- com.zoy.jdbc.JdbcUtilsFactory.java
+    - java-architect.sql                //测试sql
+- com.zoy.jdbc.JdbcUtilsFactory.java    //测试类
+
+### 二 、Mybatis与jps整合
 
   
 
