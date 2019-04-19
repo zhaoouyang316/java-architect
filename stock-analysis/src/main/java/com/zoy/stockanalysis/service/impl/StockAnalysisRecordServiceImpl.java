@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.NumberUtils;
 
@@ -57,6 +58,12 @@ public class StockAnalysisRecordServiceImpl implements StockAnalysisRecordServic
         Example<StockAnalysisRecord> ex = Example.of(stockAnalysisRecord, matcher);
         List<StockAnalysisRecord> list=stockAnalysisRecordRepository.findAll(ex);
         return CollectionUtils.isEmpty(list)?null:list.get(0);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void deleteByStockAnalysisId(Long stockAnalysisId) {
+        stockAnalysisRecordRepository.deleteAllByStockAnalysisId(stockAnalysisId);
     }
 
 

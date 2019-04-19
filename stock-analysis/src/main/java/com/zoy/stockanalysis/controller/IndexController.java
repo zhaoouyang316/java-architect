@@ -4,9 +4,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.zoy.common.enums.StatusEnum;
 import com.zoy.stockanalysis.entity.StockAnalysis;
 import com.zoy.stockanalysis.service.ItemStockService;
+import com.zoy.stockanalysis.service.StockAnalysisRecordService;
 import com.zoy.stockanalysis.service.StockAnalysisService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +29,8 @@ public class IndexController {
     private ItemStockService itemStockService;
     @Autowired
     private StockAnalysisService stockAnalysisService;
+    @Autowired
+    private StockAnalysisRecordService stockAnalysisRecordService;
 
     /**
      * 买入股票
@@ -109,6 +113,21 @@ public class IndexController {
     public String searchAnalysis() throws Exception {
         //169039296274104320L
         return JSONObject.toJSONString(stockAnalysisService.findAll());
+    }
+
+    /**
+     * 删除策略
+     * @return
+     */
+    @GetMapping(value = "/deleteByStockAnalysisId")
+    public String deleteAnalysis(String stockAnalysisId) throws Exception {
+        String[] idArr=stockAnalysisId.split(",");
+        for(String str:idArr){
+            if(!ObjectUtils.isEmpty(str)){
+                itemStockService.deleteByStockAnalysisId(Long.valueOf(str));
+            }
+        }
+        return "ok";
     }
 
 }

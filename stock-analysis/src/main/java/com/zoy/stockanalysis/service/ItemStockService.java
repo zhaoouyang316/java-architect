@@ -25,6 +25,11 @@ public interface ItemStockService {
      */
     String searchStock(Long stockAnalysisId) throws Exception;
 
+    /**
+     * 删除策略
+     */
+    void deleteByStockAnalysisId(Long stockAnalysisId) throws Exception;
+
     // 根据时间统计排行榜
     // 统计涨幅低于3%的盈利比率
     // 统计涨幅高于5%的盈利比率

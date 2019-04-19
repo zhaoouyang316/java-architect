@@ -19,6 +19,7 @@ public interface StockPriceRecordService {
     StockPriceRecord saveAndFlush(StockPriceRecord stockPriceRecord);
     List<StockPriceRecord> findAll(StockPriceRecord stockPriceRecord);
     StockPriceRecord findById(StockPriceRecord stockPriceRecord);
+    void deleteByStockAnalysisId(Long stockAnalysisId);
 
     /**
      * 保存股票行情

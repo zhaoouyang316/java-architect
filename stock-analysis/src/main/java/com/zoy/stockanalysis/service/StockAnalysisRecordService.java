@@ -16,4 +16,5 @@ public interface StockAnalysisRecordService {
     StockAnalysisRecord saveAndFlush(StockAnalysisRecord stockAnalysisRecord);
     List<StockAnalysisRecord> findAll(StockAnalysisRecord stockAnalysisRecord);
     StockAnalysisRecord getByStockAnalysisId(StockAnalysisRecord stockAnalysisRecord);
+    void deleteByStockAnalysisId(Long stockAnalysisId);
 }

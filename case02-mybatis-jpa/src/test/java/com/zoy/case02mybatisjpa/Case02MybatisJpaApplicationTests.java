@@ -11,6 +11,7 @@ public class Case02MybatisJpaApplicationTests {
 
 	@Test
 	public void contextLoads() {
+
 	}
 
 }

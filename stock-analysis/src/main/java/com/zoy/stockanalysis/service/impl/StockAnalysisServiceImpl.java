@@ -42,5 +42,10 @@ public class StockAnalysisServiceImpl implements StockAnalysisService{
        return stockAnalysisRepository.findAll(ex);
     }
 
+    @Override
+    public void deleteById(Long id) {
+        stockAnalysisRepository.deleteById(id);
+    }
+
 
 }

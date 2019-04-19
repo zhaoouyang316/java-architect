@@ -14,4 +14,5 @@ public interface StockAnalysisService {
     List<StockAnalysis> findAll();
     StockAnalysis save(StockAnalysis stockAnalysis);
     List<StockAnalysis> findAll(StockAnalysis stockAnalysis);
+    void deleteById(Long id);
 }

@@ -35,8 +35,6 @@ import java.util.List;
 public class ItemStockServiceImpl implements ItemStockService {
 
     @Autowired
-    private StockPriceRecordService tockPriceRecordService;
-    @Autowired
     private BigMarketService bigMarketService;
     @Autowired
     private StockAnalysisRecordService stockAnalysisRecordService;
@@ -103,7 +101,7 @@ public class ItemStockServiceImpl implements ItemStockService {
                         if(bigMarket.getVolatilityPrice().compareTo(new BigDecimal(0L))==1){
                             broaderMarketStatus=1;
                         }
-                        StockPriceRecord stockPriceRecord=tockPriceRecordService.saveByArray(resStockBody,bigMarket.getId()
+                        StockPriceRecord stockPriceRecord=stockPriceRecordService.saveByArray(resStockBody,bigMarket.getId()
                                 ,broaderMarketStatus,stockAnalysisId,stockCode
                                 ,bigMarketTypeEnum, StockStatusEnum.POSITION,positionNumber,BigDecimal.valueOf(0),null);
                         if(stockPriceRecord!=null){
@@ -497,5 +495,13 @@ public class ItemStockServiceImpl implements ItemStockService {
                 json.put("spotSettlement",spotSettlementRecord);
             }
             return json.toJSONString();
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void deleteByStockAnalysisId(Long stockAnalysisId) throws Exception {
+        stockPriceRecordService.deleteByStockAnalysisId(stockAnalysisId);
+        stockAnalysisRecordService.deleteByStockAnalysisId(stockAnalysisId);
+        stockAnalysisService.deleteById(stockAnalysisId);
     }
 }

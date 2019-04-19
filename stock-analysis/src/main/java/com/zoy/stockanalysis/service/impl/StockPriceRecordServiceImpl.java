@@ -60,6 +60,11 @@ public class StockPriceRecordServiceImpl implements StockPriceRecordService {
     }
 
     @Override
+    public void deleteByStockAnalysisId(Long stockAnalysisId) {
+        stockPriceRecordRepository.deleteByStockAnalysisId(stockAnalysisId);
+    }
+
+    @Override
     public StockPriceRecord saveByArray(String arr,Long bigMarketId,
                                         Integer broaderMarketStatus,Long stockAnalysisId,
                                         String stockCode,BigMarketTypeEnum bigMarketTypeEnum,
