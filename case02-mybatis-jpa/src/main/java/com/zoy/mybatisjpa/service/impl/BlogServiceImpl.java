@@ -4,6 +4,7 @@ import com.zoy.mybatisjpa.dao.BlogMapper;
 import com.zoy.mybatisjpa.entity.Blog;
 import com.zoy.mybatisjpa.service.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 
 import java.util.List;
 
@@ -21,4 +22,11 @@ public class BlogServiceImpl implements BlogService{
     public List<Blog> selectBlog(Blog blog) {
         return blogMapper.selectBlog(blog);
     }
+
+    @Override
+    public void insertBlog(Blog blog) {
+        blogMapper.insertBlog(blog);
+    }
+
+
 }

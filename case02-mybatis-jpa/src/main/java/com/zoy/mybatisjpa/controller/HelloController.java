@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.zoy.mybatisjpa.dao.BlogMapper;
 import com.zoy.mybatisjpa.entity.Blog;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 

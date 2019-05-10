@@ -7,4 +7,24 @@
         select * from case02_blog
     </select>
 
+    <!-- 模糊查询 -->
+    <select id="selectBlogByName" parameterType="string" resultType="com.zoy.mybatisjpa.entity.Blog">
+        select * from case02_blog where name like '%' #{name} '%'
+    </select>
+
+    <!-- 不支持主键自增长的情况 -->
+    <insert id="insertBlogByLastId" parameterType="com.zoy.mybatisjpa.entity.Blog">
+        <selectKey resultType="Long" keyProperty="id" order="BEFORE">
+          select max(id)+1 from case02_blog
+        </selectKey>
+        insert into case02_blog (id,name,title,author,content,source,visits,create_time,update_time,remark,status,createper)
+        values (#{id},#{name},#{title},#{author},#{content},#{source},#{visits},#{createTime},#{updateTime},#{remark},#{status},#{createper})
+    </insert>
+
+    <!-- 支持主键自增长的情况 -->
+    <insert id="insertBlog" useGeneratedKeys="true" keyProperty="id">
+        insert into case02_blog (name,title,author,content,source,visits,create_time,update_time,remark,status,createper)
+        values (#{name},#{title},#{author},#{content},#{source},#{visits},#{createTime},#{updateTime},#{remark},#{status},#{createper})
+    </insert>
+
 </mapper>

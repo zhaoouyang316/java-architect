@@ -13,4 +13,5 @@ public interface BlogService {
 
     List<Blog> selectBlog(Blog blog);
 
+    void insertBlog(Blog blog);
 }
