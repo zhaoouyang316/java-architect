@@ -31,8 +31,8 @@ public class DateUtil {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateString = formatter.format(new Date());
         ParsePosition pos = new ParsePosition(8);
-        Date currentTime_2 = formatter.parse(dateString, pos);
-        return currentTime_2;
+        Date currentTime2 = formatter.parse(dateString, pos);
+        return currentTime2;
     }
 
     /**
@@ -43,8 +43,8 @@ public class DateUtil {
     public static Date getNowDateShort() {
         String dateString = formatter.format(new Date());
         ParsePosition pos = new ParsePosition(8);
-        Date currentTime_2 = formatter.parse(dateString, pos);
-        return currentTime_2;
+        Date currentTime2 = formatter.parse(dateString, pos);
+        return currentTime2;
     }
 
     /**
@@ -174,9 +174,9 @@ public class DateUtil {
      */
     public static Date getLastDate(long day) {
         Date date = new Date();
-        long date_3_hm = date.getTime() - 3600000 * 34 * day;
-        Date date_3_hm_date = new Date(date_3_hm);
-        return date_3_hm_date;
+        long date3Hm = date.getTime() - 3600000 * 34 * day;
+        Date date3HmDate = new Date(date3Hm);
+        return date3HmDate;
     }
 
     /**
@@ -222,10 +222,10 @@ public class DateUtil {
         String minute = "00";
         String second = "00";
         if (value != null && !"".equals(value.trim())) {
-            int v_int = Integer.valueOf(value);
-            hour = v_int / 3600 + "";//获得小时;
-            minute = v_int % 3600 / 60 + "";//获得小时;
-            second = v_int % 3600 % 60 + "";//获得小时;
+            int vInt = Integer.valueOf(value);
+            hour = vInt / 3600 + "";//获得小时;
+            minute = vInt % 3600 / 60 + "";//获得小时;
+            second = vInt % 3600 % 60 + "";//获得小时;
         }
         return (hour.length() > 1 ? hour : "0" + hour) + ":" + (minute.length() > 1 ? minute : "0" + minute) + ":" + (second.length() > 1 ? second : "0" + second);
     }
@@ -313,8 +313,8 @@ public class DateUtil {
         String mydate1 = "";
         try {
             Date date1 = format.parse(sj1);
-            long Time = (date1.getTime() / 1000) + Integer.parseInt(jj) * 60;
-            date1.setTime(Time * 1000);
+            long time = (date1.getTime() / 1000) + Integer.parseInt(jj) * 60;
+            date1.setTime(time * 1000);
             mydate1 = format.format(date1);
         } catch (Exception e) {
         }
@@ -616,7 +616,7 @@ public class DateUtil {
         return jj;
     }
 
-    public static boolean RightDate(String date) {
+    public static boolean rightDate(String date) {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         ;
@@ -643,15 +643,15 @@ public class DateUtil {
     public static String getStringDateMonth(String sdate, String nd, String yf, String rq, String format) {
         Date currentTime = new Date();
         String dateString = formatter.format(currentTime);
-        String s_nd = dateString.substring(0, 4); // 年份
-        String s_yf = dateString.substring(5, 7); // 月份
-        String s_rq = dateString.substring(8, 10); // 日期
+        String sNd = dateString.substring(0, 4); // 年份
+        String sYf = dateString.substring(5, 7); // 月份
+        String sRq = dateString.substring(8, 10); // 日期
         String sreturn = "";
         //roc.util.MyChar mc = new roc.util.MyChar();
         //if (sdate == null || sdate.equals("") || !mc.Isdate(sdate)) { // 处理空值情况
         if (sdate == null || "".equals(sdate)) {
             if ("1".equals(nd)) {
-                sreturn = s_nd;
+                sreturn = sNd;
                 // 处理间隔符
                 if ("1".equals(format)) {
                     sreturn = sreturn + "年";
@@ -665,7 +665,7 @@ public class DateUtil {
             }
             // 处理月份
             if ("1".equals(yf)) {
-                sreturn = sreturn + s_yf;
+                sreturn = sreturn + sYf;
                 if ("1".equals(format)) {
                     sreturn = sreturn + "月";
                 } else if ("2".equals(format)) {
@@ -678,7 +678,7 @@ public class DateUtil {
             }
             // 处理日期
             if ("1".equals(rq)) {
-                sreturn = sreturn + s_rq;
+                sreturn = sreturn + sRq;
                 if ("1".equals(format)) {
                     sreturn = sreturn + "日";
                 }
@@ -686,11 +686,11 @@ public class DateUtil {
         } else {
             // 不是空值，也是一个合法的日期值，则先将其转换为标准的时间格式
             sdate = getOKDate(sdate);
-            s_nd = sdate.substring(0, 4); // 年份
-            s_yf = sdate.substring(5, 7); // 月份
-            s_rq = sdate.substring(8, 10); // 日期
+            sNd = sdate.substring(0, 4); // 年份
+            sYf = sdate.substring(5, 7); // 月份
+            sRq = sdate.substring(8, 10); // 日期
             if ("1".equals(nd)) {
-                sreturn = s_nd;
+                sreturn = sNd;
                 // 处理间隔符
                 if ("1".equals(format)) {
                     sreturn = sreturn + "年";
@@ -704,7 +704,7 @@ public class DateUtil {
             }
             // 处理月份
             if ("1".equals(yf)) {
-                sreturn = sreturn + s_yf;
+                sreturn = sreturn + sYf;
                 if ("1".equals(format)) {
                     sreturn = sreturn + "月";
                 } else if ("2".equals(format)) {
@@ -717,7 +717,7 @@ public class DateUtil {
             }
             // 处理日期
             if ("1".equals(rq)) {
-                sreturn = sreturn + s_rq;
+                sreturn = sreturn + sRq;
                 if ("1".equals(format)) {
                     sreturn = sreturn + "日";
                 }

@@ -40,19 +40,19 @@ public class HttpUtils {
     private OkHttpClient mOkHttpClient;
 
     private HttpUtils() {
-        okhttp3.OkHttpClient.Builder ClientBuilder=new okhttp3.OkHttpClient.Builder();
-        ClientBuilder.readTimeout(20, TimeUnit.SECONDS);//读取超时
-        ClientBuilder.connectTimeout(6, TimeUnit.SECONDS);//连接超时
-        ClientBuilder.writeTimeout(60, TimeUnit.SECONDS);//写入超时
+        okhttp3.OkHttpClient.Builder clientBuilder=new okhttp3.OkHttpClient.Builder();
+        clientBuilder.readTimeout(20, TimeUnit.SECONDS);//读取超时
+        clientBuilder.connectTimeout(6, TimeUnit.SECONDS);//连接超时
+        clientBuilder.writeTimeout(60, TimeUnit.SECONDS);//写入超时
         //支持HTTPS请求，跳过证书验证
-        ClientBuilder.sslSocketFactory(createSSLSocketFactory());
-        ClientBuilder.hostnameVerifier(new HostnameVerifier() {
+        clientBuilder.sslSocketFactory(createSSLSocketFactory());
+        clientBuilder.hostnameVerifier(new HostnameVerifier() {
             @Override
             public boolean verify(String hostname, SSLSession session) {
                 return true;
             }
         });
-        mOkHttpClient=ClientBuilder.build();
+        mOkHttpClient=clientBuilder.build();
     }
 
     /**
@@ -178,19 +178,19 @@ public class HttpUtils {
     }
     /**
      * post的请求参数，构造RequestBody
-     * @param BodyParams
+     * @param bodyParams
      * @return
      */
-    private RequestBody setRequestBody(Map<String, String> BodyParams){
+    private RequestBody setRequestBody(Map<String, String> bodyParams){
         RequestBody body=null;
         okhttp3.FormBody.Builder formEncodingBuilder=new okhttp3.FormBody.Builder();
-        if(BodyParams != null){
-            Iterator<String> iterator = BodyParams.keySet().iterator();
+        if(bodyParams != null){
+            Iterator<String> iterator = bodyParams.keySet().iterator();
             String key = "";
             while (iterator.hasNext()) {
                 key = iterator.next().toString();
-                formEncodingBuilder.add(key, BodyParams.get(key));
-                log.debug("post http", "post_Params==="+key+"===="+BodyParams.get(key));
+                formEncodingBuilder.add(key, bodyParams.get(key));
+                log.debug("post http", "post_Params==="+key+"===="+bodyParams.get(key));
             }
         }
         body=formEncodingBuilder.build();

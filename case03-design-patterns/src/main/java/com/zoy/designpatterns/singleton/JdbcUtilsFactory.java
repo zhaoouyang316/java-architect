@@ -1,4 +1,4 @@
-package com.zoy.jdbc;
+package com.zoy.designpatterns.singleton;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,7 +8,7 @@ import java.sql.SQLException;
 /**
  * 线程安全类，Jdbc工厂
  *
- * 高并发下用枚举的方式实现单例
+ * 高并发下用枚举+静态内部类的方式实现单例
  * 1 编译器会创建一个final 类型的类继承 Enum，而且属性和方法都是 static类型的，Java类的加载和初始化过程都是线程安全的。
  * 2 枚举自己处理序列化
  *

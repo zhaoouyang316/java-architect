@@ -124,17 +124,16 @@
        接入第三方系统，实现自动化交易
        
 
-## 技术模块（ 欢迎fork ）     
 
-### 一 、高并发下单例、枚举实现、JDBC工具类
-jdbc
-- doc
-    - java-architect.sql                //测试sql
-- com.zoy.jdbc.JdbcUtilsFactory.java    //测试类
+## case 技术模块（ 欢迎fork ）     
 
-### 二 、Mybatis与jpa整合
+### case01、高并发下单例、枚举实现、JDBC工具类
 
-### 三 、Mybatis与MybatisPlus整合
+### case02、Mybatis与jpa整合
+
+### case03、23种设计模式代码实现
+
+
 
 
 

@@ -1,5 +1,8 @@
 package com.zoy.concurrent;
 
+import com.zoy.concurrent.annoations.NotThreadSafe;
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
@@ -10,6 +13,8 @@ import java.util.concurrent.Semaphore;
  * @email zhaoouyang163@gmail.com
  * @date : 2019/5/10
  */
+@Slf4j
+@NotThreadSafe
 public class MapExample {
 
     private static int threadTotal = 200;  // 并发数
