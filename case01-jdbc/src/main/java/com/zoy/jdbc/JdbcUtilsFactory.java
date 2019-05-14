@@ -21,7 +21,7 @@ public class JdbcUtilsFactory {
     /**
      * jdbc工具类
      */
-    private enum JdbcUtilsEnum{
+    private enum JdbcUtilsEnum {
 
         SINGLETON_JDBCUTILS_FACTORY;
 
