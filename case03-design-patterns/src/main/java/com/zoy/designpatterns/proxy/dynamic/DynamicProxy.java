@@ -14,7 +14,10 @@ public class DynamicProxy {
         JavaDeveloper zack=new JavaDeveloper("Zack");
         /**
          * 通过jdk动态代理，调用实现类Developer的方法
-         * 原理：把接口复制出来，通过这些接口和类加载器，拿到代理类，通过反射复制代理类的构造函数，然后通过构造函数new一个对象，同时用InvocationHandler 绑定这个对象
+         *
+         * 原理：把接口复制出来，通过这些接口和类加载器，拿到代理类，
+         * 通过反射复制代理类的构造函数，然后通过构造函数new一个对象，
+         * 同时用InvocationHandler 绑定这个对象
          */
         Developer zackProxy= (Developer) Proxy.newProxyInstance(zack.getClass().getClassLoader(),zack.getClass().getInterfaces(),((proxy, method, args1) -> {
             if (method.getName().equals("code")){
